@@ -12,14 +12,18 @@ namespace ccTalkNet
      * We can only send and receive messages. 
      */
 
-    class ccTalkBus
+    public class ccTalkBus
     {
-        private SerialPort _serial;
+        private SerialPort _serial = new SerialPort();
         private int _baudrate = 9600;
         private Boolean _is_open = false;
 
         public Boolean open(String port)
-        {
+        {            
+            if(!SerialPort.GetPortNames().Contains(port))
+            {
+                return false;
+            }
             //Configure start stop etc...
             if (!_is_open)
             {
@@ -69,6 +73,11 @@ namespace ccTalkNet
             //read the anser
             
             return false;
+        }
+
+        public void close()
+        {
+            _serial.Close();
         }
 
     }

@@ -15,7 +15,7 @@ namespace unit_test
          * 
          * Part 1, Page 28
          */
-        public void simple_checksum()
+        public void ccTalkMessageTest_simple_checksum()
         {
             Byte[] data_bytes = new Byte[4] {0x01,0x00,0x02,0x00};
             Byte result = ccTalkNet.ccTalk_Message.simple_checksum(data_bytes);
@@ -23,7 +23,7 @@ namespace unit_test
         }
 
         [TestMethod]
-        public void constructor_test_no_payload()
+        public void ccTalkMessageTest_constructor_test_no_payload()
         {
             //Test with simple ack!
             Byte[] data_bytes = new Byte[5] { 0x01, 0x00, 0x02, 0x00, 0xff};
@@ -38,7 +38,7 @@ namespace unit_test
         }
 
         [TestMethod]
-        public void constructor_test_payload()
+        public void ccTalkMessageTest_constructor_test_payload()
         {
             //Test with payload
             Byte[] data_bytes = new Byte[7] {   0x01, //dest
@@ -56,9 +56,12 @@ namespace unit_test
 
 
         [TestMethod]
-        public void Test_implode()
+        public void ccTalkMessageTest_implode()
         {
-            Assert.IsTrue(false);
+            Byte[] data_bytes = new Byte[5] { 0x01, 0x00, 0x02, 0x00,253 };
+            ccTalkNet.ccTalk_Message message = new ccTalkNet.ccTalk_Message(data_bytes);
+            Byte[] imploded = message.implode();
+            CollectionAssert.AreEqual(data_bytes, imploded);
         }
     }
 }
