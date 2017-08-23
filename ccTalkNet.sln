@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ccTalkNet", "ccTalkNet\ccTa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unit_test", "unit_test\unit_test.csproj", "{60F74C06-B5AA-4DC2-992C-AA926C488657}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cli_test", "cli_demo\cli_test.csproj", "{065640B4-5311-471E-B2D7-4B3853C8B2E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cli_test", "cli_test\cli_test.csproj", "{065640B4-5311-471E-B2D7-4B3853C8B2E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -77,7 +77,26 @@ namespace ccTalkNet
 
         public Boolean ack_ccTalk_Bytes(Byte[] message)
         {
-            //We asume the answer is an ack... 
+            Byte[] reply = null;
+            if (_write_to_bus(message) != null)
+            {
+                reply = _read_from_bus();
+                _flush_serial_input();
+            } else
+            {
+                _state = ccTalk_Bus_State.FAILURE;
+                return false;
+            }
+            /*
+             * Check if this is a confirm. 
+             * This is if the dest is now source and vice versa. 
+             * Header and size are 0
+             */
+            if (reply[0] == message[2]
+                & reply[2] == message[0]
+                & reply[1] == 0
+                & reply[3] == 0
+                ) return true;
             return false;
         }
 

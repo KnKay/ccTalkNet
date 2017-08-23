@@ -27,7 +27,7 @@ namespace unit_test
             Assert.IsFalse(bus.open("false"), "Fail to not open a port");
             bus.close();
             //Wait sime time
-            Assert.IsTrue(bus.open("COM4"));
+            Assert.IsTrue(bus.open("COM10"));
             Assert.AreEqual(bus.state, ccTalkNet.ccTalk_Bus_State.OPEN);
             bus.close();
             Assert.AreEqual(bus.state, ccTalkNet.ccTalk_Bus_State.CLOSED);
@@ -38,7 +38,7 @@ namespace unit_test
         {
                   
             ccTalkNet.ccTalkBus bus = new ccTalkNet.ccTalkBus();
-            Assert.IsTrue(bus.open("COM4"));
+            Assert.IsTrue(bus.open("COM10"));
             bus.read_direct(10000);
             Assert.AreEqual(bus.state, ccTalkNet.ccTalk_Bus_State.READTIMEOUT, "No readout found");
             bus.close();
@@ -49,7 +49,7 @@ namespace unit_test
         public void ccTalkBus_echo_pass()
         {            
             ccTalkNet.ccTalkBus bus = new ccTalkNet.ccTalkBus();
-            Assert.IsTrue(bus.open("COM4"));
+            Assert.IsTrue(bus.open("COM10"));
             Byte[] test_bytes = new Byte[7] { 0x01, 0x02, 0x03, 0x04, 0x05,0x06,0x07 };
             Byte[] ack = new Byte[5] { 0x01, 0x00, 0x02, 0x00, 253 };
             //We write 4 bytes and expect them back!             
@@ -63,7 +63,7 @@ namespace unit_test
         public void ccTalkBus_t_r_byte()
         {
             ccTalkNet.ccTalkBus bus = new ccTalkNet.ccTalkBus();
-            Assert.IsTrue(bus.open("COM4"));
+            Assert.IsTrue(bus.open("COM10"));
             Byte[] test_bytes = new Byte[5] { 0x02, 0x00, 0x01, 245, 0x00 };
             test_bytes[4] = ccTalkNet.ccTalk_Message.simple_checksum(test_bytes);
             Byte[] ack = new Byte[5] { 0x01, 0x00, 0x02, 0x00, 253 };
