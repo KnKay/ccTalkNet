@@ -20,7 +20,7 @@ namespace ccTalkNet
      * This class will be the "physical" implementation of ccTalk
      * We can only send and receive messages. 
      */
-    public class ccTalkBus
+    public class ccTalk_Bus
     {
         public EventHandler<ccTalk_Bus_EventArgs> state_changed;
         public ccTalk_Bus_State state { get { return _state; } }
@@ -29,7 +29,7 @@ namespace ccTalkNet
         private int _baudrate = 9600;
         private ccTalk_Bus_State _state = ccTalkNet.ccTalk_Bus_State.CLOSED;       
 
-        public Boolean open(String port)
+        public virtual Boolean open(String port)
         {            
             if(!SerialPort.GetPortNames().Contains(port))
             {
@@ -54,17 +54,46 @@ namespace ccTalkNet
             return true;
         }
 
-        public ccTalk_Message send_ccTalk_Message(ccTalk_Message message)
+        public virtual ccTalk_Message send_ccTalk_Message(ccTalk_Message message)
         {
+
+            Byte[] reply = null;
+            if (_write_to_bus(message.implode()) != null){
+                reply = _read_from_bus();
+                _flush_serial_input();
+            }
+            if (reply != null)
+                return new ccTalk_Message(reply);
             return new ccTalk_Message();
         }
         
-        public Boolean ack_ccTalk_Message(ccTalk_Message message)
+        public virtual Boolean ack_ccTalk_Message(ccTalk_Message message)
         {
+            Byte[] reply = null;
+            if (_write_to_bus(message.implode()) != null)
+            {
+                reply = _read_from_bus();
+                _flush_serial_input();
+            }
+            else
+            {
+                _state = ccTalk_Bus_State.FAILURE;
+                return false;
+            }
+            /*
+             * Check if this is a confirm. 
+             * This is if the dest is now source and vice versa. 
+             * Header and size are 0
+             */
+            if (reply[0] == message.src
+                & reply[2] == message.dest
+                & reply[1] == 0
+                & reply[3] == 0
+                ) return true;
             return false;
         }
 
-        public Byte[] send_ccTalk_Bytes(Byte[] message)
+        public virtual Byte[] send_ccTalk_Bytes(Byte[] message)
         {
             Byte[] reply = null;
             if (_write_to_bus(message) != null)
@@ -75,7 +104,7 @@ namespace ccTalkNet
             return reply;
         }        
 
-        public Boolean ack_ccTalk_Bytes(Byte[] message)
+        public virtual Boolean ack_ccTalk_Bytes(Byte[] message)
         {
             Byte[] reply = null;
             if (_write_to_bus(message) != null)

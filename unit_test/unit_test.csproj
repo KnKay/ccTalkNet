@@ -55,6 +55,10 @@
     <Compile Include="Bus_Test.cs" />
     <Compile Include="ccTalkMessageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ccTalkHostTest.cs" />
+    <Compile Include="ccTalk_acceptorTest.cs" />
+    <Compile Include="UnitSimTest.cs" />
+    <Compile Include="unit_sim.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ccTalkNet\ccTalkNet.csproj">

@@ -8,6 +8,10 @@ namespace ccTalkNet
 {
     public delegate Byte checksum_delegate(Byte[] bytes);
 
+    /// <summary>Class holding generic functions for ccTalk Messages. 
+    /// This should simplify some generic functions and take pain out of 
+    /// working with byte array directly!
+    /// </summary>
     public class ccTalk_Message
     {
         private Byte _src = 0x00;
@@ -32,17 +36,26 @@ namespace ccTalkNet
 
         public checksum_delegate calc_check_method = simple_checksum;
 
-
+        /// <summary>
+        /// Generate, using simple checksum algo!
+        /// </summary>
         public ccTalk_Message()
         {
 
         }
 
+        /// <summary>
+        /// Choose your checksum algo!
+        /// </summary>
         public ccTalk_Message(checksum_delegate checksum_algo)
         {
             calc_check_method = checksum_algo;
         }
 
+        /// <summary>
+        /// Generate, using simple checksum algo!
+        /// Data taken from the byte array!
+        /// </summary>
         public ccTalk_Message(Byte[] raw)
         {            
             _dest = raw[0];
@@ -64,11 +77,18 @@ namespace ccTalkNet
                       
         }
 
+        /// <summary>
+        /// Choose your checksum algo!
+        /// Data taken from the byte array!
+        /// </summary>
         public ccTalk_Message(Byte[] raw, checksum_delegate checksum_algo) : this(raw)
         {
             calc_check_method = checksum_algo;
         }
-
+        /// <summary>
+        /// We implode the message and return an Byte[].
+        /// This is holding the information, the Checksum is calculated!
+        /// </summary>
         public Byte[] implode ()
         {
             Byte[] serialized = new Byte[data_bytes + 5];
@@ -90,12 +110,18 @@ namespace ccTalkNet
             return serialized;
         }
 
+        /// <summary>
+        /// We calc the checksum according to the method we choose!
+        /// </summary>
         private Byte _calc_check()
         {
             return calc_check_method(this.implode());            
         }
-               
-        //Static functions for checksum calc
+
+        /// <summary>
+        /// We calc the checksum according to the method we choose!
+        /// The function is static to make this work on a generic byte array as well!
+        /// </summary>
         public static Byte simple_checksum(Byte[] bytes)
         {            
             Byte sum = 0;

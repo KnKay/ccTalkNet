@@ -10,7 +10,7 @@ namespace cli_demo
     {
         static void Main(string[] args)
         {
-            ccTalkNet.ccTalkBus bus = new ccTalkNet.ccTalkBus();
+            ccTalkNet.ccTalk_Bus bus = new ccTalkNet.ccTalk_Bus();
             bus.open("COM10");
             /*
              * This has been to test the general sending. This is some how confusing the unit!!!
@@ -20,9 +20,7 @@ namespace cli_demo
                         Console.WriteLine(test_bytes[16]);
                         Console.WriteLine(bus.write_direct(test_bytes)[16]);
             */
-
         
-
             Byte[] test_bytes = new Byte[5] { 0x02, 0x00, 0x01, 254, 0x00 };
             test_bytes[4] = ccTalkNet.ccTalk_Message.simple_checksum(test_bytes);
             Byte[] ack = new Byte[5] { 0x01, 0x00, 0x02, 0x00, 253 };
@@ -49,12 +47,34 @@ namespace cli_demo
                 
             }
             Console.WriteLine("____________________________________________________");
+
             Console.WriteLine("Testing send of Byte and get an Ack!");
             for (int i = 0; i < 5; i++)
             {                                
                 Console.WriteLine(bus.ack_ccTalk_Bytes(test_bytes));
             }
             Console.WriteLine("____________________________________________________");
+
+            Console.WriteLine("Testing send of ccTalkMessage and get an Ack!");
+            ccTalkNet.ccTalk_Message poll = new ccTalkNet.ccTalk_Message();
+            poll.dest = 2;
+            poll.src = 1;
+            poll.header = 254;
+            for (int i = 0; i < 5; i++)
+            {
+                Console.WriteLine(bus.ack_ccTalk_Message(poll));
+            }
+            Console.WriteLine("____________________________________________________");
+
+            Console.WriteLine("Testing send of ccTalkMessage and get an Ack as Message!");            
+            ccTalkNet.ccTalk_Message result = null;
+            for (int i = 0; i < 5; i++)
+            {
+                result = bus.send_ccTalk_Message(poll);
+                Console.WriteLine(result);
+            }
+            Console.WriteLine("____________________________________________________");
+
             bus.close();
             Console.ReadKey();
         }
