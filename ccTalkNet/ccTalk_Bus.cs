@@ -27,7 +27,7 @@ namespace ccTalkNet
 
         private SerialPort _serial = new SerialPort();
         private int _baudrate = 9600;
-        private ccTalk_Bus_State _state = ccTalkNet.ccTalk_Bus_State.CLOSED;       
+        private ccTalk_Bus_State _state = ccTalkNet.ccTalk_Bus_State.CLOSED;        
 
         public virtual Boolean open(String port)
         {            

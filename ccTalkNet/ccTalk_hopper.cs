@@ -9,11 +9,11 @@ namespace ccTalkNet
     public class ccTalk_hopper : ccTalk_device
     {
 
-        public ccTalk_hopper(ccTalk_host host, int address) : base(host, address)
+        public ccTalk_hopper(ccTalk_host host, Byte address) : base(host, address)
         {
         }
 
-        public ccTalk_hopper(ccTalk_Bus bus, int address) : base(bus, address)
+        public ccTalk_hopper(ccTalk_Bus bus, Byte address) : base(bus, address)
         {
         }
 
@@ -24,11 +24,6 @@ namespace ccTalkNet
         }
 
         public override bool is_available()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void poll()
         {
             throw new NotImplementedException();
         }

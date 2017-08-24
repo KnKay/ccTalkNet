@@ -9,16 +9,13 @@ namespace unit_test
         
 
         [TestMethod]
-        public void ccTalkAcceptor_construction()
+        public void ccTalkDevice_InitPhase()
         {
-            //Test if we can create a new acceptor. and checkl if this one is existing!
             ccTalkNet.ccTalk_Bus bus = new unit_sim();
-
-        }
-
-        [TestMethod]
-        public void ccTalkAcceptor_get_information()
-        {
+            ccTalkNet.ccTalk_device device = new ccTalkNet.ccTalk_acceptor(bus, 2);
+            string test = "test";
+            Assert.AreEqual(test, test);
+            Assert.IsTrue(device.is_available());
         }
         
     }

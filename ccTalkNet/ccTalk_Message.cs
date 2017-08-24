@@ -133,5 +133,33 @@ namespace ccTalkNet
             }
             return (Byte)(256 - (int)sum);
         }
+
+        /// <summary>
+        /// We check if the checksum is correct.
+        /// </summary>
+        public static Boolean validate_simple_checksum(Byte[] bytes)
+        {
+            //Sum of all Bytes must be 0! 
+            Byte sum = 0;
+            foreach (Byte data_byte in bytes)
+            {
+                sum += data_byte;
+            }
+            if (sum == 0)
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// We extract a ccTalk Payload out of a byte[] of a ccTalk message
+        /// </summary>
+        public static Byte[] get_bytes_payload(Byte[] bytes)
+        {
+            if (bytes[1] == 0)
+                return null;
+            Byte[] payload = new Byte[bytes[1]];
+            System.Array.Copy(bytes, 4, payload, 0, bytes[1]);
+            return payload;
+        }
     }
 }

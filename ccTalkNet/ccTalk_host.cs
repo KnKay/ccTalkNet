@@ -6,8 +6,8 @@ using System.Threading;
 using System.Timers;
 
 namespace ccTalkNet
-{ 
-    public enum ccTalk_host_states {CREATED, WORKING, FAILURE };
+{
+    public enum ccTalk_host_states { CREATED, WORKING, FAILURE };
     public class ccTalk_host_states_EventArgs : EventArgs
     {
         public ccTalk_host_states state { get; set; }
@@ -26,14 +26,18 @@ namespace ccTalkNet
     /// </summary>
     public class ccTalk_host
     {
-        private Dictionary<string, ccTalk_acceptor> _coin_in 
-            = new Dictionary<string, ccTalk_acceptor>();       
-        private Dictionary<string, ccTalk_hopper>_coin_out 
+        private Dictionary<string, ccTalk_acceptor> _coin_in
+            = new Dictionary<string, ccTalk_acceptor>();
+        private Dictionary<string, ccTalk_hopper> _coin_out
             = new Dictionary<string, ccTalk_hopper>();
         protected ccTalk_Bus _bus = new ccTalk_Bus();
         private string _bus_port;
         private List<Byte[]> _message_que = new List<byte[]>();
         private System.Timers.Timer _timer = new System.Timers.Timer(100);
+        private int _address = 1;
+
+        public int address { get { return _address; } set { _address = value; } }
+        public ccTalk_Bus bus {get{return _bus ;} }
 
         public ccTalk_host(string a_port)
         {

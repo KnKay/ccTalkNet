@@ -17,9 +17,11 @@ namespace unit_test
          */
         public void ccTalkMessageTest_simple_checksum()
         {
-            Byte[] data_bytes = new Byte[4] {0x01,0x00,0x02,0x00};
-            Byte result = ccTalkNet.ccTalk_Message.simple_checksum(data_bytes);
-            Assert.IsTrue(result.Equals(253));
+            Byte[] data_bytes = new Byte[5] {0x01,0x00,0x02,0x00,0x00};
+            Byte result = ccTalkNet.ccTalk_Message.simple_checksum(data_bytes);            
+            Assert.IsTrue(result.Equals(253), "Creation of checksum Failed");
+            data_bytes[4] = result;
+            Assert.IsTrue(ccTalkNet.ccTalk_Message.validate_simple_checksum(data_bytes), "Validation failed");
         }
 
         [TestMethod]
@@ -33,8 +35,6 @@ namespace unit_test
             Assert.IsTrue(message.header.Equals(0x00));
             Assert.IsTrue(message.checksum.Equals(253));
             Assert.IsFalse(message.had_valid_checksum);
-
-
         }
 
         [TestMethod]
@@ -54,7 +54,6 @@ namespace unit_test
             Assert.IsTrue(message.payload[1].Equals(0xf0));
         }
 
-
         [TestMethod]
         public void ccTalkMessageTest_implode()
         {
@@ -62,6 +61,19 @@ namespace unit_test
             ccTalkNet.ccTalk_Message message = new ccTalkNet.ccTalk_Message(data_bytes);
             Byte[] imploded = message.implode();
             CollectionAssert.AreEqual(data_bytes, imploded);
+        }
+
+        [TestMethod]
+        public void ccTalkMessageTest_get_pl_from_bytes()
+        {
+            //dest, pl-size, src, header, databyte0-n, checksum
+            Byte[] data_bytes = new Byte[9] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09 };
+            Byte[] payload = ccTalkNet.ccTalk_Message.get_bytes_payload(data_bytes);
+            Assert.AreEqual(payload.Length, data_bytes[1], "Payload Sizesize not correct");
+            Assert.AreEqual(payload[0], data_bytes[4], "Payload first byte not correct");
+            Assert.AreEqual(payload[1], data_bytes[5], "Payload  last not correct");
+            data_bytes = new Byte[9] { 0x01, 0x04, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09 };
+         //   Assert.AreEqual(payload.Length, data_bytes[1], "Payload Sizesize not correct");
         }
     }
 }
