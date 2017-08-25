@@ -72,9 +72,13 @@ namespace cli_demo
             Console.WriteLine("Type: " + eagle.equip_cat_id);
             Console.WriteLine("Unit: " + eagle.prod_code);
             Console.WriteLine("Manufacturer: " + eagle.manu_id);
+            Console.WriteLine("Coins: ");
+            for (Byte channel = 1; channel < 17; channel++)
+            {
+                Console.WriteLine("\t"+eagle.get_coin(channel) +" to path "+eagle.get_sorter_path(channel).ToString());
+            }
 
-
-
+            Console.WriteLine("____________________________________________________\n");
             bus.close();
             Console.ReadKey();
         }
