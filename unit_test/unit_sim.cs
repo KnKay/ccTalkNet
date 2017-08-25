@@ -22,6 +22,11 @@ namespace unit_test
         public static unit_state state = unit_state.INIT;
         public static int events = 0;
 
+        public unit_sim()
+        {
+            unit_sim.state = unit_state.INIT;
+        }
+
         public override Boolean open(String port) { return true; }
         public override ccTalkNet.ccTalk_Message send_ccTalk_Message(ccTalkNet.ccTalk_Message message)
         {

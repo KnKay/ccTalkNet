@@ -12,14 +12,6 @@ namespace cli_demo
         {
             ccTalkNet.ccTalk_Bus bus = new ccTalkNet.ccTalk_Bus();
             bus.open("COM10");
-            /*
-             * This has been to test the general sending. This is some how confusing the unit!!!
-             * 
-                        Byte[] test_bytes = new Byte[20] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a,
-                                                           0x11, 0x12, 0x13, 0x44, 0x45, 0x16, 0x17, 0x18, 0x19, 0x1a };
-                        Console.WriteLine(test_bytes[16]);
-                        Console.WriteLine(bus.write_direct(test_bytes)[16]);
-            */
         
             Byte[] test_bytes = new Byte[5] { 0x02, 0x00, 0x01, 254, 0x00 };
             test_bytes[4] = ccTalkNet.ccTalk_Message.simple_checksum(test_bytes);
@@ -46,14 +38,14 @@ namespace cli_demo
                 Console.WriteLine(" ");
                 
             }
-            Console.WriteLine("____________________________________________________");
+            Console.WriteLine("____________________________________________________\n");
 
             Console.WriteLine("Testing send of Byte and get an Ack!");
             for (int i = 0; i < 5; i++)
             {                                
                 Console.WriteLine(bus.ack_ccTalk_Bytes(test_bytes));
             }
-            Console.WriteLine("____________________________________________________");
+            Console.WriteLine("____________________________________________________\n");
 
             Console.WriteLine("Testing send of ccTalkMessage and get an Ack!");
             ccTalkNet.ccTalk_Message poll = new ccTalkNet.ccTalk_Message();
@@ -64,7 +56,7 @@ namespace cli_demo
             {
                 Console.WriteLine(bus.ack_ccTalk_Message(poll));
             }
-            Console.WriteLine("____________________________________________________");
+            Console.WriteLine("____________________________________________________\n");
 
             Console.WriteLine("Testing send of ccTalkMessage and get an Ack as Message!");            
             ccTalkNet.ccTalk_Message result = null;
@@ -73,7 +65,15 @@ namespace cli_demo
                 result = bus.send_ccTalk_Message(poll);
                 Console.WriteLine(result);
             }
-            Console.WriteLine("____________________________________________________");
+            Console.WriteLine("____________________________________________________\n");
+
+            Console.WriteLine("Reading information of unit!");
+            ccTalkNet.ccTalk_acceptor eagle = new ccTalkNet.ccTalk_acceptor(bus, 2);
+            Console.WriteLine("Type: " + eagle.equip_cat_id);
+            Console.WriteLine("Unit: " + eagle.prod_code);
+            Console.WriteLine("Manufacturer: " + eagle.manu_id);
+
+
 
             bus.close();
             Console.ReadKey();

@@ -180,10 +180,9 @@ namespace ccTalkNet
         {            
             //Write the message
             _serial.Write(bytes, 0, bytes.Length);
-            Thread.Sleep(20);
+            Thread.Sleep(30);
             //read the echo                        
-           return _read_from_bus(bytes.Length);            
-          
+           return _read_from_bus(bytes.Length);                      
         }
 
         public void close()
@@ -192,7 +191,6 @@ namespace ccTalkNet
             _state = ccTalk_Bus_State.CLOSED;
 
         }
-
 
         //ToDo: Check VS suggested improvement
         protected virtual void onStateChange()

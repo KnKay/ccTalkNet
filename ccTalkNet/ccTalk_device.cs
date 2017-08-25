@@ -13,7 +13,7 @@ namespace ccTalkNet
         protected ccTalk_Bus _bus = null;
         protected Byte _address;
         protected Byte _host_address = 1;
-        
+
         //Values we have in the core commands
         private string _manu_id = null;
         private string _equip_cat_id = null;
@@ -60,6 +60,7 @@ namespace ccTalkNet
         //We read the ASC chars that are in the core commands!
         protected virtual void _init_std_reply()
         {
+            //Open the bus!             
             ccTalk_Message request_message = new ccTalk_Message(new Byte[5] {_address, 0x00, 0x01, 246, 0x00});
             //Take the payload of our answer and stringify it!
             _manu_id = Encoding.Default.GetString( _bus.send_ccTalk_Message(request_message).payload);
@@ -69,6 +70,7 @@ namespace ccTalkNet
             _prod_code = Encoding.Default.GetString(_bus.send_ccTalk_Message(request_message).payload);
             request_message.header = 192;
             _build_code = Encoding.Default.GetString(_bus.send_ccTalk_Message(request_message).payload);
+
             return;
         }   
     }

@@ -86,11 +86,5 @@ namespace unit_test
 
         }
 
-        [TestMethod]
-        public void ccTalkBus_Eventsystem()
-        {
-            Assert.IsTrue(false);
-        }
-
     }
 }
