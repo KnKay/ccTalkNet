@@ -11,8 +11,8 @@ namespace ccTalkNet
     {
         protected ccTalk_host _host = null;
         protected ccTalk_Bus _bus = null;
-        private Byte _address;
-        private int _host_address = 1;
+        protected Byte _address;
+        protected Byte _host_address = 1;
         
         //Values we have in the core commands
         private string _manu_id = null;
@@ -58,17 +58,17 @@ namespace ccTalkNet
         }
 
         //We read the ASC chars that are in the core commands!
-        private void _init_std_reply()
+        protected virtual void _init_std_reply()
         {
             ccTalk_Message request_message = new ccTalk_Message(new Byte[5] {_address, 0x00, 0x01, 246, 0x00});
             //Take the payload of our answer and stringify it!
-            _manu_id = System.Text.Encoding.Default.GetString( _bus.send_ccTalk_Message(request_message).payload);
+            _manu_id = Encoding.Default.GetString( _bus.send_ccTalk_Message(request_message).payload);
             request_message.header = 245;
-            _equip_cat_id = System.Text.Encoding.Default.GetString(_bus.send_ccTalk_Message(request_message).payload);
+            _equip_cat_id = Encoding.Default.GetString(_bus.send_ccTalk_Message(request_message).payload);
             request_message.header = 244;
-            _prod_code = System.Text.Encoding.Default.GetString(_bus.send_ccTalk_Message(request_message).payload);
+            _prod_code = Encoding.Default.GetString(_bus.send_ccTalk_Message(request_message).payload);
             request_message.header = 192;
-            _build_code = System.Text.Encoding.Default.GetString(_bus.send_ccTalk_Message(request_message).payload);
+            _build_code = Encoding.Default.GetString(_bus.send_ccTalk_Message(request_message).payload);
             return;
         }   
     }

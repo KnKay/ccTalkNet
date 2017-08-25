@@ -43,6 +43,7 @@
     <Compile Include="ccTalk_Bus.cs" />
     <Compile Include="ccTalk_acceptor.cs" />
     <Compile Include="ccTalk_device.cs" />
+    <Compile Include="ccTalk_Events.cs" />
     <Compile Include="ccTalk_hopper.cs" />
     <Compile Include="ccTalk_host.cs" />
     <Compile Include="ccTalk_Message.cs" />

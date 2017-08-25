@@ -20,6 +20,7 @@ namespace unit_test
         public answer answer_request  = generate_poll_ack;
         public static Byte[] answer_pl = new Byte[2] { 1, 2};
         public static unit_state state = unit_state.INIT;
+        public static int events = 0;
 
         public override Boolean open(String port) { return true; }
         public override ccTalkNet.ccTalk_Message send_ccTalk_Message(ccTalkNet.ccTalk_Message message)
@@ -46,6 +47,7 @@ namespace unit_test
             return reply_message;
         }
 
+
         public static Byte[] generate_answer(Byte[] request)
         {
             //The answer depends on the unit state... 
@@ -53,20 +55,43 @@ namespace unit_test
             switch (unit_sim.state)
             {
                 case unit_state.INIT:
-                    reply_message = generate_answer_sceleton(request, 3);
-                    reply_message[4] = (Byte)'K';
-                    reply_message[5] = (Byte)'R';
-                    reply_message[6] = (Byte)'I';
+                    reply_message = generate_answer_sceleton(request, 3);                    
                     //We know we test the init. This means we will be polled for our ID's
                     switch (request[3]){
                         case 246:
+                            reply_message[4] = (Byte)'2';
+                            reply_message[5] = (Byte)'4';
+                            reply_message[6] = (Byte)'6';
                             return reply_message;                            
                         case 245:
+                            reply_message[4] = (Byte)'2';
+                            reply_message[5] = (Byte)'4';
+                            reply_message[6] = (Byte)'5';
                             return reply_message;
                         case 244:
+                            reply_message[4] = (Byte)'2';
+                            reply_message[5] = (Byte)'4';
+                            reply_message[6] = (Byte)'4';
                             return reply_message;
                         case 192:
-                            return reply_message;                   
+                            reply_message[4] = (Byte)'1';
+                            reply_message[5] = (Byte)'9';
+                            reply_message[6] = (Byte)'2';
+                            return reply_message;
+                        //Get some dummy coin ID's for acceptors
+                        case 184:
+                            if (request[4] >= 17)
+                                return null;
+                            Byte offset = request[4];
+                            Byte nu = (Byte)48;
+                            reply_message[4] = (Byte)'C';
+                            reply_message[5] = (Byte)'I';
+                            reply_message[6] = (Byte)( nu + offset); //We return the requested thingy as last par of the name 
+                            return reply_message;
+                        case 209:
+                            reply_message = generate_answer_sceleton(request, 1);
+                            reply_message[4] = (Byte)(request[4]+1);
+                            return reply_message;
                     }
                     return null;
                 default:
@@ -91,6 +116,5 @@ namespace unit_test
             sceleton[1] = (Byte)pl_size;
             return sceleton;
         }
-
     }
 }

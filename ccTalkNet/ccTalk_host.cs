@@ -34,9 +34,9 @@ namespace ccTalkNet
         private string _bus_port;
         private List<Byte[]> _message_que = new List<byte[]>();
         private System.Timers.Timer _timer = new System.Timers.Timer(100);
-        private int _address = 1;
+        private Byte _address = 1;
 
-        public int address { get { return _address; } set { _address = value; } }
+        public Byte address { get { return _address; } set { _address = value; } }
         public ccTalk_Bus bus {get{return _bus ;} }
 
         public ccTalk_host(string a_port)
