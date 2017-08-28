@@ -23,11 +23,25 @@ namespace unit_test
             Assert.IsTrue(device.is_available());
         }
 
+        public ccTalkNet.ccTalk_Coin event_coin = null;
+        public ccTalkNet.Error_event event_error = null;
+
+        void coin_checker (object sender, ccTalkNet.ccTalk_Coin e)
+        {
+            event_coin = e;
+        }
+
+        void error_checker (object sender, ccTalkNet.Error_event e)
+        {
+            event_error = e;
+        }
+
         [TestMethod]
-        public void ccTalkDevice_CoinList()
+        public void ccTalkAcceptor_CoinList()
         {
             ccTalkNet.ccTalk_Bus bus = new unit_sim();
             ccTalkNet.ccTalk_acceptor device = new ccTalkNet.ccTalk_acceptor(bus, 2);
+            unit_sim.state = unit_state.INIT;
             /* We assume the coins have been read on the init. 
              * We now check if the list is valid!
              */
@@ -39,9 +53,56 @@ namespace unit_test
         }
 
         [TestMethod]
-        public void ccTalkDevice_events()
+        public void ccTalkAcceptor_events()
         {
-
-        }
+            ccTalkNet.ccTalk_Bus bus = new unit_sim();
+            ccTalkNet.ccTalk_acceptor acceptor = new ccTalkNet.ccTalk_acceptor(bus, 2);
+            unit_sim.state = unit_state.WORKING;
+            //Check to only get a true if we have new events to handle!
+            Assert.IsFalse(acceptor.get_credit_error_codes());
+            unit_sim.poll_reply[0] = 1;
+            unit_sim.poll_reply[1] = 0;
+            unit_sim.poll_reply[2] = 1;
+            //We accepted a coin 
+            Assert.IsTrue(acceptor.get_credit_error_codes());
+            //Check general event handing
+            unit_sim.poll_reply[0] = 2;
+            unit_sim.poll_reply[1] = 1;
+            unit_sim.poll_reply[2] = 1;
+            Assert.IsTrue(acceptor.get_credit_error_codes());
+            //Test if we detect lost events
+            unit_sim.poll_reply[0] = 20;
+            acceptor.get_credit_error_codes();
+            Assert.IsTrue(acceptor.has_lost_events);
+            //Test the event handler....
+            //Error handler
+            unit_sim.poll_reply[0] = 21;
+            unit_sim.poll_reply[1] = 0;
+            unit_sim.poll_reply[2] = 1;
+            bool has_error = false;
+            Assert.IsFalse(has_error);
+            acceptor.error_handler += delegate
+            {
+                has_error = true;
+            };
+            acceptor.error_handler += error_checker;
+            acceptor.get_credit_error_codes();
+            Assert.IsTrue(has_error);
+            Assert.IsTrue(event_error.error == "Rejected coin");
+            //Coin Handler
+            unit_sim.poll_reply[0] = 22;
+            unit_sim.poll_reply[1] = 2;
+            unit_sim.poll_reply[2] = 1;
+            bool has_coin = false;
+            Assert.IsFalse(has_coin);
+            acceptor.coin_handler += coin_checker;
+            acceptor.coin_handler += delegate
+            {
+                has_coin = true;
+            };
+            acceptor.get_credit_error_codes();
+            Assert.IsTrue(event_coin.channel == 2);
+            Assert.IsTrue(has_coin);            
+        }        
     }
 }

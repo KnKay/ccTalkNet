@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ccTalkNet
-{   
-    public struct ccTalk_Coin  { public Byte channel; public Byte sorter_path; public string coin_id; };
-    public delegate void ccTalk_Coin_Event_Delegate(ccTalk_Coin e);
-    public struct Error_event  { public string error; public Boolean reject; };
-    public delegate void ccTalk_Error_Event_Delegate(Error_event e);
+{
+    
+    public class ccTalk_Coin : EventArgs  { public Byte channel; public Byte sorter_path; public string coin_id; };
+    public class Error_event : EventArgs { public string error; public Boolean reject; };
+    
+
     public abstract class ccTalk_Error
     {     
         public static Error_event get_error(Byte error_number)
@@ -81,5 +82,7 @@ namespace ccTalkNet
             {254, new Error_event { error = "Door open",                    reject = false } },
             {255, new Error_event { error = "Unspecified Alarm",            reject = false } }
         };
+
+        
     }    
 }

@@ -10,7 +10,7 @@ namespace unit_test
         public void Hardware_Eagle_Init_Unit()
         {
             ccTalkNet.ccTalk_Bus bus = new ccTalkNet.ccTalk_Bus();
-            bus.open("COM10");
+            bus.open("COM4");
             ccTalkNet.ccTalk_acceptor eagle = new ccTalkNet.ccTalk_acceptor(bus, 2);
             Assert.AreEqual(eagle.equip_cat_id, "Coin Acceptor");
             bus.close();

@@ -20,7 +20,8 @@ namespace unit_test
         public answer answer_request  = generate_poll_ack;
         public static Byte[] answer_pl = new Byte[2] { 1, 2};
         public static unit_state state = unit_state.INIT;
-        public static int events = 0;
+        public static int events = 1;
+        public static Byte[] poll_reply = new Byte[11];
 
         public unit_sim()
         {
@@ -97,9 +98,24 @@ namespace unit_test
                             reply_message = generate_answer_sceleton(request, 1);
                             reply_message[4] = (Byte)(request[4]+1);
                             return reply_message;
+                        case 229:
+                            reply_message = generate_answer_sceleton(request, 11);
+                            Array.Copy(poll_reply, 0, reply_message, 4, 11);
+                            return reply_message;
                     }
                     return null;
-                default:
+                case unit_state.WORKING:
+                    reply_message = generate_answer_sceleton(request, 11);
+                    Array.Copy(poll_reply,0,reply_message,4,11); //The payload....
+                    switch (request[3])
+                    {
+                        case 229:
+                            return reply_message;
+                            break;
+
+                    }
+                    return null;
+               default:
                     reply_message  = generate_answer_sceleton(request, answer_pl.Length);
                     int traget = 4;
                     //Copy our payload

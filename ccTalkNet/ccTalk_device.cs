@@ -12,7 +12,7 @@ namespace ccTalkNet
         protected ccTalk_host _host = null;
         protected ccTalk_Bus _bus = null;
         protected Byte _address;
-        protected Byte _host_address = 1;
+        protected Byte _host_address = 1;       
 
         //Values we have in the core commands
         private string _manu_id = null;
@@ -70,7 +70,6 @@ namespace ccTalkNet
             _prod_code = Encoding.Default.GetString(_bus.send_ccTalk_Message(request_message).payload);
             request_message.header = 192;
             _build_code = Encoding.Default.GetString(_bus.send_ccTalk_Message(request_message).payload);
-
             return;
         }   
     }
