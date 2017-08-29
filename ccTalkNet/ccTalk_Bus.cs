@@ -177,12 +177,13 @@ namespace ccTalkNet
         }
 
         private Byte[] _write_to_bus(Byte[] bytes)
-        {            
-            //Write the message
+        {
+            //Write the message 
+            
             _serial.Write(bytes, 0, bytes.Length);
             Thread.Sleep(30);
             //read the echo                        
-           return _read_from_bus(bytes.Length);                      
+            return _read_from_bus(bytes.Length);      
         }
 
         public void close()
@@ -198,10 +199,7 @@ namespace ccTalkNet
             EventHandler<ccTalk_Bus_EventArgs> handler = state_changed;
             ccTalk_Bus_EventArgs new_state = new ccTalk_Bus_EventArgs();
             new_state.state = _state;
-            if (handler != null)
-            {
-                handler(this, new_state);
-            }
+            handler?.Invoke(this, new_state);
         }
     }
 }

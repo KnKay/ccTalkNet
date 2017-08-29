@@ -9,7 +9,7 @@ namespace ccTalkNet
 
     public abstract class ccTalk_device
     {
-        protected ccTalk_host _host = null;
+        protected ccTalk_Host _host = null;
         protected ccTalk_Bus _bus = null;
         protected Byte _address;
         protected Byte _host_address = 1;       
@@ -27,7 +27,7 @@ namespace ccTalkNet
 
 
 
-        protected ccTalk_device(ccTalk_host host, Byte address)
+        protected ccTalk_device(ccTalk_Host host, Byte address)
         {
             _host = host;
             _address = address;

@@ -9,7 +9,7 @@ namespace ccTalkNet
     public class ccTalk_hopper : ccTalk_device
     {
 
-        public ccTalk_hopper(ccTalk_host host, Byte address) : base(host, address)
+        public ccTalk_hopper(ccTalk_Host host, Byte address) : base(host, address)
         {
         }
 

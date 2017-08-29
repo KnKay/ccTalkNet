@@ -45,7 +45,7 @@
     <Compile Include="ccTalk_device.cs" />
     <Compile Include="ccTalk_Events.cs" />
     <Compile Include="ccTalk_hopper.cs" />
-    <Compile Include="ccTalk_host.cs" />
+    <Compile Include="ccTalk_Host.cs" />
     <Compile Include="ccTalk_Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

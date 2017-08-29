@@ -56,8 +56,10 @@ namespace unit_test
         public void ccTalkAcceptor_events()
         {
             ccTalkNet.ccTalk_Bus bus = new unit_sim();
+            unit_sim.state = unit_state.INIT;
             ccTalkNet.ccTalk_acceptor acceptor = new ccTalkNet.ccTalk_acceptor(bus, 2);
             unit_sim.state = unit_state.WORKING;
+            unit_sim.poll_reply[0] = 0;
             //Check to only get a true if we have new events to handle!
             Assert.IsFalse(acceptor.get_credit_error_codes());
             unit_sim.poll_reply[0] = 1;
@@ -105,4 +107,5 @@ namespace unit_test
             Assert.IsTrue(has_coin);            
         }        
     }
+    
 }

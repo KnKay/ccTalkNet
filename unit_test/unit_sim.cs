@@ -53,7 +53,6 @@ namespace unit_test
             return reply_message;
         }
 
-
         public static Byte[] generate_answer(Byte[] request)
         {
             //The answer depends on the unit state... 

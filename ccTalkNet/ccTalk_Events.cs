@@ -9,7 +9,8 @@ namespace ccTalkNet
     
     public class ccTalk_Coin : EventArgs  { public Byte channel; public Byte sorter_path; public string coin_id; };
     public class Error_event : EventArgs { public string error; public Boolean reject; };
-    
+    public class ccTalk_Coin_speficic : EventArgs { public ccTalk_Coin coin; public object device; };
+    public class Error_event_specific : EventArgs { public Error_event error; public object device; };
 
     public abstract class ccTalk_Error
     {     

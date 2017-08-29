@@ -21,7 +21,7 @@ namespace ccTalkNet
         public event EventHandler<ccTalk_Coin> coin_handler;
         public event EventHandler<Error_event> error_handler;
 
-        public ccTalk_acceptor(ccTalk_host host, Byte address) : base(host, address)
+        public ccTalk_acceptor(ccTalk_Host host, Byte address) : base(host, address)
         {
             buffer_read = new ccTalk_Message(new Byte[] { address, 0, host.address, 229, 0 });
         }
