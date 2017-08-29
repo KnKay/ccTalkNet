@@ -13,7 +13,7 @@ namespace cli_demo
 
         static void coin_checker(object sender, ccTalkNet.ccTalk_Coin_speficic e)
         {
-           // Console.WriteLine(e.coin.coin_id + " acceted in" + e.coin.sorter_path);            
+            Console.WriteLine(e.coin.coin_id + " acceted in" + e.coin.sorter_path);            
         }
 
         static void error_checker(object sender, ccTalkNet.Error_event_specific e)
@@ -33,6 +33,8 @@ namespace cli_demo
             ccTalkNet.ccTalk_Host host = new ccTalkNet.ccTalk_Host(bus);
             ccTalkNet.ccTalk_acceptor eagle = new ccTalkNet.ccTalk_acceptor(host, 2);
             host.add_validator(eagle);
+            eagle.master_inhibit = false;
+            eagle.coin_inhibits = new byte[] { 0xff, 0xff };
             host.error_handler += error_checker;
             host.coin_handler += coin_checker;
             DateTime _desired = DateTime.Now.AddSeconds(30);

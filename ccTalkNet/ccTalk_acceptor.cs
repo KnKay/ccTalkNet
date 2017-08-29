@@ -21,6 +21,40 @@ namespace ccTalkNet
         public bool has_lost_events = false;
         public event EventHandler<ccTalk_Coin> coin_handler;
         public event EventHandler<Error_event> error_handler;
+        private Byte[] _act_inh = new Byte[]{0,0 };
+        public Byte[] coin_inhibits
+        {
+            get
+            {
+                return _bus.send_ccTalk_Message(
+                     new ccTalk_Message(new Byte[] { _address, 0, _host_address, 230, 0 })
+                    ).payload;                
+            }
+            set
+            {
+                _manipulate_inhibits(value[0],value[1]);
+            }
+        } 
+        
+        public bool master_inhibit {
+            get
+            {  // 0 - master inhibit active
+                Byte m_inhibit = _bus.send_ccTalk_Message(
+                     new ccTalk_Message(new Byte[] { _address, 0, _host_address, 227, 0, 0 })
+                    ).payload[0];
+                if (m_inhibit == 0x00)
+                    return true;
+                return false;
+            }
+            set {
+                Byte send_byte = 0xFF;
+                if (value == true)
+                    send_byte = 0x00;
+                ccTalk_Message modify_message = new ccTalk_Message(new Byte[] { _address, 1, _host_address, 228, send_byte, 0 });
+                _bus.ack_ccTalk_Message(modify_message);
+                return;
+            }
+        }
 
         public ccTalk_acceptor(ccTalk_Host host, Byte address) : base(host, address)
         {
@@ -122,6 +156,12 @@ namespace ccTalkNet
             return events_to_handle;
         }
 
+        private bool _manipulate_inhibits(Byte upper_mask, Byte lower_mask)
+        {
+            ccTalk_Message modify_message = 
+                new ccTalk_Message(new Byte[] { _address, 2, _host_address, 231, upper_mask, lower_mask, 0 });            
+            return _bus.ack_ccTalk_Message(modify_message);
+        }
            
     }
 }
