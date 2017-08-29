@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ccTalkNet
@@ -56,8 +57,12 @@ namespace ccTalkNet
         {
             base._init_std_reply();
             //After we have the general information we need to get all coin id's
-            //This is at the moment implemented for the normal 16 channel mode only!                        
-            ccTalk_Message read_information = new ccTalk_Message(new Byte[] { _address, 1, _host_address, 184,0, 0 });            
+            //This is at the moment implemented for the normal 16 channel mode only!     
+            //We set back the unit back!                                            
+            ccTalk_Message read_information = new ccTalk_Message(new Byte[] { _address, 1, _host_address, 1,0, 0 });
+            _bus.send_ccTalk_Bytes(new Byte[5] { 2, 0, 1, 1, 252 });
+            Thread.Sleep(1000);
+            read_information.header = 184;
             for (Byte channel = 1; channel < 17; channel++)
             {
                 //modify the message
@@ -92,6 +97,7 @@ namespace ccTalkNet
                     else
                     {                        
                         ccTalk_Coin coin = _coin_list[last_event_poll[an_event + 1] - 1];
+                        coin.sorter_path = last_event_poll[an_event + 2]; 
                         coin_handler?.Invoke(this, coin);                      
                     }
                 }

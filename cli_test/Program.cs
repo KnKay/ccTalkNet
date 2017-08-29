@@ -2,17 +2,57 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace cli_demo
 {
     class Program
     {
+
+
+        static void coin_checker(object sender, ccTalkNet.ccTalk_Coin_speficic e)
+        {
+           // Console.WriteLine(e.coin.coin_id + " acceted in" + e.coin.sorter_path);            
+        }
+
+        static void error_checker(object sender, ccTalkNet.Error_event_specific e)
+        {
+            Console.WriteLine(e.error.error);
+        }
+
+
         static void Main(string[] args)
         {
             ccTalkNet.ccTalk_Bus bus = new ccTalkNet.ccTalk_Bus();
-            bus.open("COM10");
-        
+            Console.WriteLine("Please enter Port to use"); 
+            string port = Console.ReadLine();
+            port = port.ToUpper();
+            bus.open(port);
+            get_information(bus);
+            ccTalkNet.ccTalk_Host host = new ccTalkNet.ccTalk_Host(bus);
+            ccTalkNet.ccTalk_acceptor eagle = new ccTalkNet.ccTalk_acceptor(host, 2);
+            host.add_validator(eagle);
+            host.error_handler += error_checker;
+            host.coin_handler += coin_checker;
+            DateTime _desired = DateTime.Now.AddSeconds(30);
+            while (DateTime.Now < _desired)
+            {
+                Thread.Sleep(1);
+            }
+            Console.WriteLine("We are done! This seem to work...");
+            bus.close();
+            Console.ReadKey();
+        }
+
+
+        /*********************************************************
+         * Test for getting some information. Just to prove we   *
+         * can write and read the bus, get unit information...   *
+         *                                                       *
+         * *******************************************************/
+        public static void get_information(ccTalkNet.ccTalk_Bus bus)
+        {
             Byte[] test_bytes = new Byte[5] { 0x02, 0x00, 0x01, 254, 0x00 };
             test_bytes[4] = ccTalkNet.ccTalk_Message.simple_checksum(test_bytes);
             Byte[] ack = new Byte[5] { 0x01, 0x00, 0x02, 0x00, 253 };
@@ -36,17 +76,15 @@ namespace cli_demo
                     Console.Write("\t");
                 }
                 Console.WriteLine(" ");
-                
+
             }
             Console.WriteLine("____________________________________________________\n");
-
             Console.WriteLine("Testing send of Byte and get an Ack!");
             for (int i = 0; i < 5; i++)
-            {                                
+            {
                 Console.WriteLine(bus.ack_ccTalk_Bytes(test_bytes));
             }
             Console.WriteLine("____________________________________________________\n");
-
             Console.WriteLine("Testing send of ccTalkMessage and get an Ack!");
             ccTalkNet.ccTalk_Message poll = new ccTalkNet.ccTalk_Message();
             poll.dest = 2;
@@ -57,8 +95,7 @@ namespace cli_demo
                 Console.WriteLine(bus.ack_ccTalk_Message(poll));
             }
             Console.WriteLine("____________________________________________________\n");
-
-            Console.WriteLine("Testing send of ccTalkMessage and get an Ack as Message!");            
+            Console.WriteLine("Testing send of ccTalkMessage and get an Ack as Message!");
             ccTalkNet.ccTalk_Message result = null;
             for (int i = 0; i < 5; i++)
             {
@@ -66,7 +103,6 @@ namespace cli_demo
                 Console.WriteLine(result);
             }
             Console.WriteLine("____________________________________________________\n");
-
             Console.WriteLine("Reading information of unit!");
             ccTalkNet.ccTalk_acceptor eagle = new ccTalkNet.ccTalk_acceptor(bus, 2);
             Console.WriteLine("Type: " + eagle.equip_cat_id);
@@ -75,12 +111,9 @@ namespace cli_demo
             Console.WriteLine("Coins: ");
             for (Byte channel = 1; channel < 17; channel++)
             {
-                Console.WriteLine("\t"+eagle.get_coin(channel) +" to path "+eagle.get_sorter_path(channel).ToString());
+                Console.WriteLine("\t" + eagle.get_coin(channel) + " to path " + eagle.get_sorter_path(channel).ToString());
             }
-
             Console.WriteLine("____________________________________________________\n");
-            bus.close();
-            Console.ReadKey();
         }
     }
 }

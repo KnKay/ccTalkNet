@@ -111,7 +111,6 @@ namespace unit_test
                 Thread.Sleep(1);
                 
             }
-
             Assert.IsTrue(coin_handler_called, "Coin handler not called");
             Assert.IsTrue(error_handler_called, "error handler not called");            
             /*******************************************************************************/

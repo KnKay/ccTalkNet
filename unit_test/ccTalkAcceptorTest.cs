@@ -104,6 +104,7 @@ namespace unit_test
             };
             acceptor.get_credit_error_codes();
             Assert.IsTrue(event_coin.channel == 2);
+            Assert.IsTrue(event_coin.sorter_path == 1);
             Assert.IsTrue(has_coin);            
         }        
     }
