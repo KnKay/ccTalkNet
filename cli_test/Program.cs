@@ -10,7 +10,6 @@ namespace cli_demo
     class Program
     {
 
-
         static void coin_checker(object sender, ccTalkNet.ccTalk_Coin_speficic e)
         {
             Console.WriteLine(e.coin.coin_id + " acceted in" + e.coin.sorter_path);            
@@ -29,10 +28,12 @@ namespace cli_demo
             string port = Console.ReadLine();
             port = port.ToUpper();
             bus.open(port);
-            get_information(bus);
+            get_information(bus);            
             ccTalkNet.ccTalk_Host host = new ccTalkNet.ccTalk_Host(bus);
-            ccTalkNet.ccTalk_acceptor eagle = new ccTalkNet.ccTalk_acceptor(host, 2);
-            host.add_validator(eagle);
+            ccTalkNet.ccTalk_RcpAcceptor eagle = new ccTalkNet.ccTalk_RcpAcceptor(host, 2);
+            host.add_validator(eagle);            
+           
+            
             eagle.master_inhibit = false;
             eagle.coin_inhibits = new byte[] { 0xff, 0xff };
             host.error_handler += error_checker;
@@ -43,6 +44,7 @@ namespace cli_demo
                 Thread.Sleep(1);
             }
             Console.WriteLine("We are done! This seem to work...");
+            
             bus.close();
             Console.ReadKey();
         }

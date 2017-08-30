@@ -29,7 +29,7 @@ namespace unit_test
         }
 
         public override Boolean open(String port) { return true; }
-        public override ccTalkNet.ccTalk_Message send_ccTalk_Message(ccTalkNet.ccTalk_Message message)
+        public override ccTalkNet.ccTalk_Message send_ccTalk_Message(ccTalkNet.ccTalk_Message message, int wait_time = 50)
         {
             switch (unit_sim.state)
             {
@@ -39,9 +39,9 @@ namespace unit_test
                     return new ccTalkNet.ccTalk_Message(generate_answer(message.implode()));
             }                
         }
-        public override Boolean ack_ccTalk_Message(ccTalkNet.ccTalk_Message message) { return !(state == unit_state.ACKFAIL); }
-        public override Byte[] send_ccTalk_Bytes(Byte[] message) { return answer_request(message); }
-        public override Boolean ack_ccTalk_Bytes(Byte[] message) {
+        public override Boolean ack_ccTalk_Message(ccTalkNet.ccTalk_Message message, int wait_time = 50) { return !(state == unit_state.ACKFAIL); }
+        public override Byte[] send_ccTalk_Bytes(Byte[] message, int wait_time = 50) { return answer_request(message); }
+        public override Boolean ack_ccTalk_Bytes(Byte[] message, int wait_time = 50) {
             return !(state == unit_state.ACKFAIL);
         }
 

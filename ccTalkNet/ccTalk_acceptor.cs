@@ -14,14 +14,13 @@ namespace ccTalkNet
     /// </summary>
     public class ccTalk_acceptor : ccTalk_device
     {
-        private List<ccTalk_Coin> _coin_list = new List<ccTalk_Coin>();
+        protected List<ccTalk_Coin> _coin_list = new List<ccTalk_Coin>();
         public Byte events = 0;
         public Byte[] last_event_poll = null;  //To be sure we can getr any information about our last events      
         public ccTalk_Message buffer_read;
         public bool has_lost_events = false;
         public event EventHandler<ccTalk_Coin> coin_handler;
         public event EventHandler<Error_event> error_handler;
-        private Byte[] _act_inh = new Byte[]{0,0 };
         public Byte[] coin_inhibits
         {
             get

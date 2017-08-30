@@ -54,11 +54,10 @@ namespace ccTalkNet
             return true;
         }
 
-        public virtual ccTalk_Message send_ccTalk_Message(ccTalk_Message message)
+        public virtual ccTalk_Message send_ccTalk_Message(ccTalk_Message message, int echo_wait = 50)
         {
-
             Byte[] reply = null;
-            if (_write_to_bus(message.implode()) != null){
+            if (_write_to_bus(message.implode(), echo_wait) != null){
                 reply = _read_from_bus();
                 _flush_serial_input();
             }
@@ -67,10 +66,10 @@ namespace ccTalkNet
             return new ccTalk_Message();
         }
         
-        public virtual Boolean ack_ccTalk_Message(ccTalk_Message message)
+        public virtual Boolean ack_ccTalk_Message(ccTalk_Message message, int echo_wait = 50)
         {
             Byte[] reply = null;
-            if (_write_to_bus(message.implode()) != null)
+            if (_write_to_bus(message.implode(), echo_wait) != null)
             {
                 reply = _read_from_bus();
                 _flush_serial_input();
@@ -93,21 +92,33 @@ namespace ccTalkNet
             return false;
         }
 
-        public virtual Byte[] send_ccTalk_Bytes(Byte[] message)
+        public virtual Byte[] send_ccTalk_Bytes(Byte[] message, int echo_wait = 50)
         {
             Byte[] reply = null;
-            if (_write_to_bus(message) != null)
+            if (_write_to_bus(message, echo_wait) != null)
             {
                 reply = _read_from_bus();
                 _flush_serial_input();
             }
             return reply;
-        }        
+        }
 
-        public virtual Boolean ack_ccTalk_Bytes(Byte[] message)
+        public virtual Byte[] send_ccTalk_Bytes_with_read_wait(Byte[] message, int wait_time = 50)
         {
             Byte[] reply = null;
             if (_write_to_bus(message) != null)
+            {
+                Thread.Sleep(wait_time);
+                reply = _read_from_bus();
+                _flush_serial_input();
+            }
+            return reply;
+        }
+
+        public virtual Boolean ack_ccTalk_Bytes(Byte[] message, int wait_time = 50)
+        {
+            Byte[] reply = null;
+            if (_write_to_bus(message, wait_time) != null)
             {
                 reply = _read_from_bus();
                 _flush_serial_input();
@@ -176,12 +187,11 @@ namespace ccTalkNet
             _serial.Read(buffer, 0, _serial.BytesToRead);
         }
 
-        private Byte[] _write_to_bus(Byte[] bytes)
+        private Byte[] _write_to_bus(Byte[] bytes, int echo_wait = 50)
         {
-            //Write the message 
-            
+            //Write the message             
             _serial.Write(bytes, 0, bytes.Length);
-            Thread.Sleep(50);
+            Thread.Sleep(echo_wait);
             //read the echo                        
             return _read_from_bus(bytes.Length);      
         }
