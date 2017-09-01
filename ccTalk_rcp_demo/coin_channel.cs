@@ -20,5 +20,7 @@ namespace ccTalk_rcp_demo
             inhibited = a_inhibited;
         }
 
+
+
     }
 }

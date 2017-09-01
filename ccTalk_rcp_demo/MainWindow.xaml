@@ -24,11 +24,10 @@
                         <DataGridCheckBoxColumn Binding="{Binding inhibited}" ClipboardContentBinding="{x:Null}" Header="Inhibit"/>
                         <DataGridTextColumn Binding="{Binding coin_id}" ClipboardContentBinding="{x:Null}" Header="Coin ID"/>
                         <DataGridTextColumn Binding="{Binding sorter_path}" ClipboardContentBinding="{x:Null}" Header="Sorter Path"/>
-                        <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Sorter Override"/>
-                        <DataGridTemplateColumn  Header="Sorter Override">
+                        <DataGridTemplateColumn  Header="Change Coin">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button>Show/Hide</Button>
+                                    <Button Click="rcp_upload" Tag="{Binding channel}">Show/Hide</Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

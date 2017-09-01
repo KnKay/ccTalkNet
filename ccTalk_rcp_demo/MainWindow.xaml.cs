@@ -30,5 +30,12 @@ namespace ccTalk_rcp_demo
             InitializeComponent();
             dataGrid_coins.ItemsSource = coins;
         }
+
+        private void rcp_upload(object sender, RoutedEventArgs e)
+        {
+            var but = sender as Button;
+            var arg = but.Tag;
+            Console.WriteLine(arg);
+        }
     }
 }
