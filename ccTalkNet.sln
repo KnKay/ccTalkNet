@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unit_test", "unit_test\unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cli_test", "cli_test\cli_test.csproj", "{065640B4-5311-471E-B2D7-4B3853C8B2E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ccTalk_rcp_demo", "ccTalk_rcp_demo\ccTalk_rcp_demo.csproj", "{0B989427-2671-4B4D-AB14-D3EE14468E8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{065640B4-5311-471E-B2D7-4B3853C8B2E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{065640B4-5311-471E-B2D7-4B3853C8B2E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{065640B4-5311-471E-B2D7-4B3853C8B2E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B989427-2671-4B4D-AB14-D3EE14468E8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B989427-2671-4B4D-AB14-D3EE14468E8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B989427-2671-4B4D-AB14-D3EE14468E8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B989427-2671-4B4D-AB14-D3EE14468E8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,48 @@
+﻿<Window x:Class="ccTalk_rcp_demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ccTalk_rcp_demo"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+        Title="MainWindow" Height="600" Width="800">
+    <StackPanel VerticalAlignment="Top" Height="590" Margin="0,0,0,-18">
+        <Menu Width="Auto" Height="20">
+            <MenuItem Header="_File">
+                <MenuItem x:Name="AppExit" Header="_Exit" HorizontalAlignment="Left" Width="200"/>
+                <MenuItem x:Name="AppComm" Header="_Ports" HorizontalAlignment="Left" Width="200"/>
+            </MenuItem>
+            <MenuItem Header="Info">
+                <MenuItem x:Name="AppAbout" Header="_About" HorizontalAlignment="Left" Width="200"/>
+            </MenuItem>
+        </Menu>
+        <Grid Height="550">
+            <GroupBox x:Name="groupBox" Header="Coins" HorizontalAlignment="Left" Margin="287,0,0,0" VerticalAlignment="Top" Height="358" Width="497">
+                <DataGrid x:Name="dataGrid_coins" HorizontalAlignment="Left" Margin="0,10,-2,-12" VerticalAlignment="Top" Height="338" Width="487" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Binding="{Binding inhibited}" ClipboardContentBinding="{x:Null}" Header="Inhibit"/>
+                        <DataGridTextColumn Binding="{Binding coin_id}" ClipboardContentBinding="{x:Null}" Header="Coin ID"/>
+                        <DataGridTextColumn Binding="{Binding sorter_path}" ClipboardContentBinding="{x:Null}" Header="Sorter Path"/>
+                        <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Sorter Override"/>
+                        <DataGridTemplateColumn  Header="Sorter Override">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button>Show/Hide</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <GroupBox x:Name="groupBox1" Header="UnitInfo" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="358" Width="272">
+                <TextBlock x:Name="textBlock_unit_info" HorizontalAlignment="Left" Margin="0,10,-2,-12" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="338" Width="262"/>
+            </GroupBox>
+            <GroupBox x:Name="groupBox3" Header="Sorter" HorizontalAlignment="Left" Margin="10,363,0,0" VerticalAlignment="Top" Height="177" Width="491"/>
+            <CheckBox x:Name="checkBox_master_inhibit" Content="Master Inhibit" HorizontalAlignment="Left" Margin="530,375,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="button_reset_counter" Content="Reset counter" HorizontalAlignment="Left" Margin="530,396,0,0" VerticalAlignment="Top" Width="100"/>
+            <Button x:Name="button_rcp" Content="Program coins" HorizontalAlignment="Left" Margin="530,423,0,0" VerticalAlignment="Top" Width="100"/>
+        </Grid>
+    </StackPanel>
+
+</Window>

@@ -62,7 +62,9 @@
     <Compile Include="ccTalkAcceptorTest.cs" />
     <Compile Include="ccTalkEventsTest.cs" />
     <Compile Include="HardwareEagleTest.cs" />
-    <Compile Include="ccTalkRcpAcceptorTest.cs" />
+    <Compile Include="ccTalkRcpEagleTest.cs" />
+    <Compile Include="HardwareColibriTest.cs" />
+    <Compile Include="HardwareColibriRcpTest.cs" />
     <Compile Include="unit_sim.cs" />
   </ItemGroup>
   <ItemGroup>

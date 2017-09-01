@@ -32,7 +32,7 @@ namespace cli_demo
             ccTalkNet.ccTalk_Host host = new ccTalkNet.ccTalk_Host(bus);
             ccTalkNet.ccTalk_RcpAcceptor eagle = new ccTalkNet.ccTalk_RcpAcceptor(host, 2);
             host.add_validator(eagle);            
-           
+            
             
             eagle.master_inhibit = false;
             eagle.coin_inhibits = new byte[] { 0xff, 0xff };

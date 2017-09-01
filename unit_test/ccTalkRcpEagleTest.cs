@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace unit_test
 {
     [TestClass]
-    public class ccTalkRcpAcceptorTest
+    public class ccTalkRcpEagleTest
     {
         Byte expected_db = 1;
         Byte test_channel = 15;
@@ -13,7 +13,7 @@ namespace unit_test
         string test_file_bad = "C:\\Users\\kri.NRI\\Documents\\rcpdist\\allFiles\\rcp\\Eagle\\DE0\\Bin\\Db-002\\AE\\AE025A-0.bin";
 
         [TestMethod]
-        public void ccTalkRcpAcceptor_get_information()
+        public void ccTalkRcpEagle_get_information()
         {
             ccTalkNet.ccTalk_Bus bus = new ccTalkNet.ccTalk_Bus();
             bus.open("COM4");
@@ -25,7 +25,7 @@ namespace unit_test
         }
        
         [TestMethod]
-        public void ccTalkRcpAcceptor_get_extended_info()
+        public void ccTalkRcpEagle_get_extended_info()
         { //We test as well if the extended messaes are sent correct
             ccTalkNet.ccTalk_Bus bus = new ccTalkNet.ccTalk_Bus();
             bus.open("COM4");
@@ -36,7 +36,7 @@ namespace unit_test
 
 
         [TestMethod]
-        public void ccTalkRcpAcceptor_add_coin()
+        public void ccTalkRcpEagle_add_coin()
         { //We test as well if the extended messaes are sent correct
             ccTalkNet.ccTalk_Bus bus = new ccTalkNet.ccTalk_Bus();
             bus.open("COM4");
@@ -54,7 +54,7 @@ namespace unit_test
 
 
         [TestMethod]
-        public void ccTalkRcpAcceptor_remove_coin()
+        public void ccTalkRcpEagler_remove_coin()
         { //We test as well if the extended messaes are sent correct
             ccTalkNet.ccTalk_Bus bus = new ccTalkNet.ccTalk_Bus();
             bus.open("COM4");
@@ -65,8 +65,6 @@ namespace unit_test
             Assert.AreEqual(rcp_eagle.request_extended_id(test_channel), "........");
             bus.close();
         }
-
-
 
     }
 }
