@@ -34,15 +34,9 @@ namespace cli_demo
             bus.open(port);
             get_information(bus);            
             ccTalkNet.ccTalk_Host host = new ccTalkNet.ccTalk_Host(bus);
-            ccTalkNet.ccTalk_RcpAcceptor eagle = new ccTalkNet.ccTalk_RcpAcceptor(host, 2);
-<<<<<<< HEAD
-            host.add_validator(eagle);            
-            
-            
-=======
+            ccTalkNet.ccTalk_RcpAcceptor eagle = new ccTalkNet.ccTalk_RcpAcceptor(host, 2);        
             host.add_validator(eagle);
             Console.WriteLine("Setting inhibits");
->>>>>>> master
             eagle.master_inhibit = false;
             eagle.coin_inhibits = new byte[] { 0xff, 0xff };
             Console.WriteLine("Start Poll");
