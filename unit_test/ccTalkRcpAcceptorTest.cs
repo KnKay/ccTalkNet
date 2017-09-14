@@ -8,9 +8,9 @@ namespace unit_test
     {
         Byte expected_db = 1;
         Byte test_channel = 15;
-        string test_coin = "AE025A-0";
-        string test_file = "C:\\Users\\kri.NRI\\Documents\\rcpdist\\allFiles\\rcp\\Eagle\\DE0\\Bin\\Db-001\\AE\\AE025A-0.bin";
-        string test_file_bad = "C:\\Users\\kri.NRI\\Documents\\rcpdist\\allFiles\\rcp\\Eagle\\DE0\\Bin\\Db-002\\AE\\AE025A-0.bin";
+        string test_coin = "AE020A-0";
+        string test_file = "C:\\Users\\kri.NRI\\Documents\\rcpdist\\allFiles\\rcp\\Eagle\\DE0\\Bin\\Db-001\\AE\\AE020A-0.bin";
+        string test_file_bad = "C:\\Users\\kri.NRI\\Documents\\rcpdist\\allFiles\\rcp\\Eagle\\DE0\\Bin\\Db-004\\AE\\AE025A-0.bin";
 
         [TestMethod]
         public void ccTalkRcpAcceptor_get_information()
@@ -60,7 +60,6 @@ namespace unit_test
             bus.open("COM4");
             ccTalkNet.ccTalk_RcpAcceptor rcp_eagle = new ccTalkNet.ccTalk_RcpAcceptor(bus, 2);
             //Be sure the coin we expect is in!
-            //Assert.AreEqual(rcp_eagle.request_extended_id(10), "EU001A-0");
             rcp_eagle.remove_coin_signature(test_channel);
             Assert.AreEqual(rcp_eagle.request_extended_id(test_channel), "........");
             bus.close();
