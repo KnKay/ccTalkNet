@@ -71,7 +71,9 @@ namespace ccTalkNet
             Byte[] reply = null;
             if (_write_to_bus(message.implode(), echo_wait) != null)
             {
-                reply = _read_from_bus();
+                //Sometimes we need to wait here...
+                Thread.Sleep(10);
+                reply = _read_from_bus(5);
                 _flush_serial_input();
             }
             else
@@ -120,7 +122,7 @@ namespace ccTalkNet
             Byte[] reply = null;
             if (_write_to_bus(message, wait_time) != null)
             {
-                reply = _read_from_bus();
+                reply = _read_from_bus(size:5);
                 _flush_serial_input();
             } else
             {
@@ -183,8 +185,13 @@ namespace ccTalkNet
 
         private void _flush_serial_input()
         {
+            if (_serial.BytesToRead == 0)
+                return;
             Byte [] buffer = new Byte[_serial.BytesToRead];
-            _serial.Read(buffer, 0, _serial.BytesToRead);
+
+                _serial.Read(buffer, 0, _serial.BytesToRead);
+            
+
         }
 
         private Byte[] _write_to_bus(Byte[] bytes, int echo_wait = 50)
